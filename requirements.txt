@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+streamlit
+requests
+pydantic
+langchain
+langchain-community
+langchain-core
+langchain-google-genai
+langgraph
+pandas
+google-generativeai
