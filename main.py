@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from shared.chat_dtos import ChatRequest, ChatResponse
 from app.agent.agent import create_agent
 
 app = FastAPI(
@@ -14,15 +14,6 @@ app = FastAPI(
     - Compare property performance, calculate P&L, and access asset details
     """,
     version="1.0.0")
-
-
-class ChatRequest(BaseModel):
-    content: list[str]
-    api_key: str = None  # Accept API key from frontend
-
-
-class ChatResponse(BaseModel):
-    response: str
 
 
 @app.post("/chat", response_model=ChatResponse)
