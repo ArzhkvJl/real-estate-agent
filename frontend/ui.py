@@ -4,7 +4,7 @@ import os
 import sys
 from display_chat import display_chat_messages
 
-# append the path of the parent directory
+# Add parent directory to sys.path for imports
 sys.path.append("..")
 from shared import constants
 
@@ -20,10 +20,12 @@ if "messages" not in st.session_state:
 
 
 def current_chat(api_key):
+    """Displays the active chat interface with message history and input functionality."""
     os.environ["GEMINI_API_KEY"] = api_key
     user_input = st.chat_input("Type your message here...")
     history = st.session_state["messages"]
     if user_input:
+        # Append user message to chat history
         st.session_state.messages.append({"role": "user", "content": user_input})
         message_history = [msg["content"] for msg in history]
         # Call FastAPI backend
@@ -39,14 +41,18 @@ def current_chat(api_key):
                                      )
             agent_reply = response.json()
             if response.status_code != 200:
-                agent_reply = agent_reply.get("detail")
+                st.error(f"Failed to send message: {agent_reply.get('detail')}")
+
+            # Append assistant's reply to chat history
+            message = {"role": "assistant", "content": agent_reply.get("response")}
+            st.session_state.messages.append(message)
         except Exception as e:
-            agent_reply = f"[Error: {e}]"
-        message = {"role": "assistant", "content": agent_reply.get("response")}
-        st.session_state.messages.append(message)
+            st.error(f"Failed to send message: {e}")
+    # Display the chat messages
     display_chat_messages(history)
 
 
+# Run chat if API key is provided
 if gemini_api_key:
     current_chat(gemini_api_key)
 else:

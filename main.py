@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from shared.chat_dtos import ChatRequest, ChatResponse
 from app.agent.agent import create_agent
 
+# Initialize FastAPI app with metadata
 app = FastAPI(
     title="AI Assistant & Real Estate Asset Management API",
     description="""

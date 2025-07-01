@@ -77,3 +77,39 @@ real-estate-agent/
 ├── requirements.txt   # Python dependencies
 ```
 
+---
+## Model and frameworks choices
+
+_Python_ is considered the best programming language for AI development due to its ease of use, large ecosystem of libraries and frameworks, and strong community support.
+
+_Google Gemini models_ are specifically designed as reasoning models. This means they can think internally about problems and generate intermediate steps before providing a final answer. This capability is critical for real estate asset management, where decisions often require multi-step analysis.
+Gemini models have a high ability to extract specific information from unstructured text, which is invaluable for processing leases, contracts, market reports, and other real estate documents.
+The Gemini family of models is the availability of a free tier for the Gemini API. Even the free tier provides access to powerful models with reasonable token limits that are sufficient for significant development.
+
+_LangChain_ allows you to efficiently build applications on top of large language models. It is ideal for connecting LLM to databases to extract information and making answers more accurate. There are some developed tool to work with SQL querues.
+
+_LangGraph_ is required for more complex and non-linear processes. Graph representation of logic allows the application to share the data between tolls and show the user only the final answer.
+
+---
+
+## Main challenges
+1. **Data Gaps & Schema Mismatch**
+
+A single table (cortex) contained rental and maintenance logs, but did not contain asset-level fields such as address, market_value, or purchase_price.
+User queries (e.g., "Compare the price of assets on 123 Main St and 456 Oak Ave") could not be satisfied from the existing schema.
+
+_Solution_:
+
+Graceful system prompt 
+
+2. **Agent architecture and tool development**
+
+It was necessary to develop an application flow that would analyze the database, not raw numerical data from the user.
+
+_Solution_:
+
+To do this, the agent's work scheme should represent:
+
+Analysis of the database schema → Creating an SQL query → Checking the correctness of the query → Execution → Summarizing
+
+Therefore, the agent compares the user's request with the database schema, extracts the necessary information and generates a report.
